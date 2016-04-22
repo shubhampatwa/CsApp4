@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.amisha.csapp"
+    package="com.csapp.csapp"
     android:versionCode="1"
     android:versionName="1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application
+    <application android:name=".app.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,10 +22,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NextActivity"
-            android:label="next">
+            android:name=".TeacherRegister"
+            android:label="next"
+            android:parentActivityName=".MainActivity">
 
         </activity>
+
+
+
         <!--<activity android:name=".activity.LoginActivity"-->
             <!--android:label="CsApps"-->
             <!--&gt;</activity>-->
@@ -34,9 +38,9 @@
             <!--android:parentActivityName=".MainActivity">-->
 
         <!--</activity>-->
-        <!--<activity android:name=".Main"-->
-            <!--android:label="CsApp"-->
-            <!--&gt;</activity>-->
+        <activity android:name=".Main"
+            android:label="CsApp">
+            </activity>
     </application>
 
 </manifest>

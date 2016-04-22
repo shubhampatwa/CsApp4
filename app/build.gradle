@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.amisha.csapp"
+        applicationId "com.csapp.csapp"
         minSdkVersion 9
         targetSdkVersion 23
         versionCode 1
@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

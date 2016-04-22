@@ -1,11 +1,8 @@
-package com.amisha.csapp.activity;
-
-/**
- * Created by Shubhi on 4/12/2016.
- */
+package com.csapp.csapp;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.amisha.csapp.Main;
-import com.amisha.csapp.MainActivity;
-import com.amisha.csapp.app.AppController;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,15 +20,14 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.csapp.csapp.R;
+import com.csapp.csapp.helper.SessionManager;
+import com.csapp.csapp.helper.SQLiteHandler;
+import com.csapp.csapp.app.AppConfig;
+import com.csapp.csapp.app.AppController;
 
-import com.amisha.csapp.R;
-import com.amisha.csapp.app.AppConfig;
-import com.amisha.csapp.app.AppController;
-import com.amisha.csapp.helper.SQLiteHandler;
-import com.amisha.csapp.helper.SessionManager;
-
-public class RegisterActivity extends Activity {
-    private static final String TAG = RegisterActivity.class.getSimpleName();
+public class TeacherRegister extends Activity {
+    private static final String TAG = TeacherRegister.class.getSimpleName();
     private Button btnRegister;
     private Button btnLinkToLogin;
     private EditText inputFullName;
@@ -47,7 +40,7 @@ public class RegisterActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.teacher_register);
 
         inputFullName = (EditText) findViewById(R.id.name);
         inputEmail = (EditText) findViewById(R.id.email);
@@ -68,7 +61,7 @@ public class RegisterActivity extends Activity {
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
-            Intent intent = new Intent(RegisterActivity.this,
+            Intent intent = new Intent(TeacherRegister.this,
                     Main.class);
             startActivity(intent);
             finish();
@@ -82,7 +75,11 @@ public class RegisterActivity extends Activity {
                 String password = inputPassword.getText().toString().trim();
 
                 if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
-                    registerUser(name, email, password);
+                    Toast.makeText(getApplicationContext(),
+                            "processing", Toast.LENGTH_LONG)
+                            .show();
+                    registerTeacher(name, email, password);
+
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)
@@ -101,15 +98,14 @@ public class RegisterActivity extends Activity {
                 finish();
             }
         });
-
     }
 
     /**
      * Function to store user in MySQL database will post params(tag, name,
      * email, password) to register url
-     * */
-    private void registerUser(final String name, final String email,
-                              final String password) {
+     */
+    private void registerTeacher(final String name, final String email,
+                                 final String password) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -125,6 +121,9 @@ public class RegisterActivity extends Activity {
                 hideDialog();
 
                 try {
+//                    Toast.makeText(getApplicationContext(),
+//                            response.toString(), Toast.LENGTH_LONG)
+//                            .show();
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
@@ -138,14 +137,19 @@ public class RegisterActivity extends Activity {
                         String created_at = user
                                 .getString("created_at");
 
+                        Toast.makeText(getApplicationContext(),
+                                "json", Toast.LENGTH_LONG)
+                                .show();
                         // Inserting row in users table
                         db.addUser(name, email, uid, created_at);
-
+//                        Toast.makeText(getApplicationContext(),
+//                                "addUser", Toast.LENGTH_LONG)
+//                                .show();
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
                         Intent intent = new Intent(
-                                RegisterActivity.this,
+                                TeacherRegister.this,
                                 MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -158,6 +162,7 @@ public class RegisterActivity extends Activity {
                                 errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
+
                     e.printStackTrace();
                 }
 
@@ -199,4 +204,6 @@ public class RegisterActivity extends Activity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
+
 }

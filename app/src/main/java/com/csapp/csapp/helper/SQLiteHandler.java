@@ -1,4 +1,4 @@
-package com.amisha.csapp.helper;
+package com.csapp.csapp.helper;
 
 /**
  * Created by Shubhi on 4/12/2016.
@@ -24,7 +24,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "amisha";
 
     // Login table name
-    private static final String TABLE_USER = "users";
+    private static final String TABLE_USER = "teacher";
 
     // Login Table Columns names
     private static final String KEY_ID = "id";
@@ -94,6 +94,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             user.put("email", cursor.getString(2));
             user.put("uid", cursor.getString(3));
             user.put("created_at", cursor.getString(4));
+
         }
         cursor.close();
         db.close();
@@ -116,3 +117,4 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
 }
+

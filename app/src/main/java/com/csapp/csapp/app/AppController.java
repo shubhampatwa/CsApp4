@@ -1,4 +1,4 @@
-package com.amisha.csapp.app;
+package com.csapp.csapp.app;
 
 /**
  * Created by Shubhi on 4/12/2016.
